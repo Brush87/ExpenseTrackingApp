@@ -1,25 +1,16 @@
 import {
-  createStore,
-  applyMiddleware,
-  compose
-} from 'redux'
-import thunk from 'redux-thunk'
-import {
-  rootReducer
-} from './reducers/index'
+  configureStore
+} from '@reduxjs/toolkit'
+import expenseReducer from './features/expenses/ExpenseSlice'
 
-// Required interface to get Redux dev tools working with CRA TypeScript
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
+export const store = configureStore({
+  reducer: {
+    expenses: expenseReducer,
+  },
+  devTools: process.env.NODE_ENV !== 'production',
+});
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
-  )
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
 
 export default store

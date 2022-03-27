@@ -1,18 +1,20 @@
 import React from 'react'
 import {
-  useDispatch,
-  useSelector
-} from 'react-redux'
-import { RootState } from './reducers'
-import ExpenseActions from './actions/ExpenseActions'
+  useAppDispatch,
+  useAppSelector
+} from './hooks'
+import {
+  newTotal,
+  selectTotal
+} from './features/expenses/ExpenseSlice'
 
 const App = () => {
-  const dispatch = useDispatch()
-  const expenseActions = new ExpenseActions()
-  const testTotal = useSelector((state: RootState) => state.expenseReducer.total)
+  const dispatch = useAppDispatch()
+  const testTotal = useAppSelector(selectTotal)
+  console.log(selectTotal)
 
   const testOnClick = () => {
-    dispatch(expenseActions.updateExpenseTotal(7))
+    dispatch(newTotal(7))
   }
 
   return (
