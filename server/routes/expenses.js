@@ -1,9 +1,10 @@
 import express from 'express'
+import {
+  getExpenses
+} from '../controllers/expensesController.js'
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-  res.send('WORKING')
-})
+router.get('/', getExpenses)
 
 export default router
