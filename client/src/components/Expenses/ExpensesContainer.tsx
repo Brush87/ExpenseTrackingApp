@@ -3,15 +3,22 @@ import React, {
   useEffect
 } from 'react'
 import {
-  Table,
-  Spin
-} from 'antd'
-import {
-  useAppSelector
+  useAppSelector,
+  useAppDispatch
 } from '../../hooks'
 import {
-  selectExpenseList
+  selectExpenseList,
+  deleteSpecificExpense
 } from '../../features/expenses/ExpenseSlice'
+import {
+  calculateTaxes,
+  displayTaxedAmount
+} from '../../utils/Utils'
+import {
+  Table,
+  Spin,
+  Button
+} from 'antd'
 
 const TABLE_COLUMNS = [
   {
@@ -25,7 +32,7 @@ const TABLE_COLUMNS = [
     key: 'amount',
   },
   {
-    title: 'Taxes',
+    title: 'Taxes (15%)',
     dataIndex: 'taxes',
     key: 'taxes',
   },
@@ -42,18 +49,40 @@ const TABLE_COLUMNS = [
 ]
 
 const ExpensesContainer = () => {
+  const dispatch = useAppDispatch()
   const expenseList = useAppSelector(selectExpenseList)
   const [dataSource, setDataSource] = useState<any[]>([])
+
+  const handleDeleteExpense = (expenseId: string) => {
+    console.log('Deleting', expenseId)
+    dispatch(deleteSpecificExpense(expenseId))
+  }
+
+  const generateExpenseOptions = (expenseId: string) => {
+    return (
+      <div key={expenseId}>
+        <Button>
+          Edit
+        </Button>
+        <Button
+          onClick={() => handleDeleteExpense(expenseId)}
+        >
+          Delete
+        </Button>
+      </div>
+    )
+  }
 
   const generateExpenseDataEffect = () => {
     console.log('Expense List', expenseList)
     const returnDataSource = expenseList.reduce((prev, curr) => {
+      console.log('Curr', curr)
       return [...prev, {
         description: curr.description,
         amount: curr.amount,
-        taxes: curr.amount,
-        date: curr.date,
-        options: 'Options Go Here'
+        taxes: displayTaxedAmount(calculateTaxes(curr.amount)),
+        date: new Date(curr.date).toLocaleString(),
+        options: generateExpenseOptions(curr._id)
       }]
     }, [])
     setDataSource(returnDataSource)

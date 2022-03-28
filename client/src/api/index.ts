@@ -4,3 +4,4 @@ const URL = 'http://localhost:5000/expense'
 
 export const fetchExpenses = () => axios.get(URL)
 export const createExpense = (newExpense: any) => axios.post(URL, newExpense)
+export const deleteExpense = (expenseId: string) => axios.delete(URL, {data: { id: expenseId }})

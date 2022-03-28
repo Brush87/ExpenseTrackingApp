@@ -3,7 +3,6 @@ import Expense from '../models/expenseModel.js'
 export const getExpenses = async (req, res) => {
   try {
     const expenses = await Expense.find()
-    console.log('Expenses', expenses)
     res.status(200).json(expenses)
   } catch (err) {
     res.status(404).json({ message: err.message })
@@ -30,11 +29,12 @@ export const patchExpense = async (req, res) => {
   }
 }
 
-// TODO Write out deleteExpense Functionality
 export const deleteExpense = async (req, res) => {
   try {
-
+    console.log('Delete Req', req.body)
+    await Expense.remove({ _id: req.body.id })
+    res.status(202).json(req.body.id)
   } catch (err) {
-
+    res.status(500).json({ message: err.message })
   }
 }

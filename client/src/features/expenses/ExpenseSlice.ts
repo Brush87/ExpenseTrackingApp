@@ -9,7 +9,8 @@ import type {
 } from '../../store'
 import {
   fetchExpenses,
-  createExpense
+  createExpense,
+  deleteExpense
 } from '../../api/index'
 
 // Define a type for the slice state
@@ -32,7 +33,6 @@ export const fetchAllExpenses = createAsyncThunk(
   'expense/fetchExpenses',
   async () => {
     const response = await fetchExpenses()
-    console.log('fetchAllExpenses RESPONSE', response)
     return response.data
   }
 )
@@ -41,19 +41,18 @@ export const createNewExpense = createAsyncThunk(
   'expense/createExpense',
   async (newExpense: any) => {
     const response = await createExpense(newExpense)
-    console.log('createNewExpense RESPONSE', response)
     return response.data
   }
 )
 
-// export const deleteExpense = createAsyncThunk(
-//   'expense/deleteExpense',
-//   async (expenseId: string) => {
-//     const response = await deleteExpense(expenseId)
-//     console.log('deleteExpense RESPONSE', response)
-//     return response.data
-//   }
-// )
+export const deleteSpecificExpense = createAsyncThunk(
+  'expense/deleteExpense',
+  async (expenseId: string) => {
+    const response = await deleteExpense(expenseId)
+    console.log('deleteExpense RESPONSE', response)
+    return response.data
+  }
+)
 
 export const expenseSlice = createSlice({
   name: 'expense',
@@ -66,15 +65,7 @@ export const expenseSlice = createSlice({
 
     newTotalWithTaxes: (state, action: PayloadAction<number>) => {
       state.totalWithTaxes = action.payload
-    },
-
-    // addExpenseToList: (state, action: PayloadAction<any>) => {
-    //   state.expenses = [...state.expenses, action.payload]
-    // },
-
-    // removeExpenseFromList: (state, action: PayloadAction<string>) => {
-      
-    // }
+    }
   },
 
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -104,6 +95,19 @@ export const expenseSlice = createSlice({
         // TODO Write logic to populate total and totalWithTaxes on fulfilled
       })
       .addCase(createNewExpense.rejected, (state) => {
+        state.status = 'failed'
+      })
+
+    // DELETE_SPECIFIC_EXPENSE CASES
+      .addCase(deleteSpecificExpense.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(deleteSpecificExpense.fulfilled, (state, action) => {
+        state.status = 'idle'
+        state.expenses = state.expenses.filter(expense => expense._id !== action.payload._id)
+        // TODO Write logic to populate total and totalWithTaxes on fulfilled
+      })
+      .addCase(deleteSpecificExpense.rejected, (state) => {
         state.status = 'failed'
       })
   },
