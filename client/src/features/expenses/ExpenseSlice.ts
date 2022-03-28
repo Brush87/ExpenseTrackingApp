@@ -51,5 +51,7 @@ export const {
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectTotal = (state: RootState) => state.expenses.total
+export const selectTotalWithTaxes = (state: RootState) => state.expenses.totalWithTaxes
+export const selectExpenseList = (state: RootState) => state.expenses.expenses
 
 export default expenseSlice.reducer
