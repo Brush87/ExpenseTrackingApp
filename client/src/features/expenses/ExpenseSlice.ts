@@ -104,7 +104,7 @@ export const expenseSlice = createSlice({
         state.expenses = [...state.expenses, action.payload]
 
         // Update State with with New Totals from Expenses List
-        const total = calculateTotal([...state.expenses, action.payload])
+        const total = calculateTotal(state.expenses)
         state.total = total
         state.totalWithTaxes = total * 1.15
       })
@@ -118,8 +118,12 @@ export const expenseSlice = createSlice({
       })
       .addCase(deleteSpecificExpense.fulfilled, (state, action) => {
         state.status = 'idle'
-        state.expenses = state.expenses.filter(expense => expense._id !== action.payload._id)
-        // TODO Write logic to populate total and totalWithTaxes on fulfilled
+        state.expenses = state.expenses.filter(expense => expense._id !== action.payload)
+
+        // Update State with with New Totals from Expenses List
+        const total = calculateTotal(state.expenses)
+        state.total = total
+        state.totalWithTaxes = total * 1.15
       })
       .addCase(deleteSpecificExpense.rejected, (state) => {
         state.status = 'failed'
