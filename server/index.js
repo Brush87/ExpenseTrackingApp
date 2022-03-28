@@ -7,11 +7,11 @@ import expenseRoutes from './routes/expenses.js'
 
 const app = express()
 
-app.use('/expense', expenseRoutes)
-
 app.use(bodyParser.json({ limit: '1mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }))
 app.use(cors())
+
+app.use('/expense', expenseRoutes)
 
 // TODO Secure Credientials at least somewhat
 const CONN_URL = 'mongodb+srv://huotdyanmicly:BKNTEcRTXcugZixr@huotdynamiclycluster.3dlzi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'

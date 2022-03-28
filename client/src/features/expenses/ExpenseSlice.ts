@@ -32,6 +32,7 @@ export const fetchAllExpenses = createAsyncThunk(
   async () => {
     const response = await fetchExpenses()
     // Value returned on `fulfilled` action payload
+    console.log('RESPONSE', response)
     return response.data
   }
 )
