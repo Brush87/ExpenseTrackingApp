@@ -7,7 +7,9 @@ import ExpensesContainer from './components/Expenses/ExpensesContainer'
 import {
   useAppDispatch
 } from './hooks'
-import { fetchAllExpenses } from './features/expenses/ExpenseSlice'
+import {
+  fetchAllExpenses
+} from './features/expenses/ExpenseSlice'
 import style from './rootStyle.module.scss'
 import 'antd/dist/antd.css'
 
@@ -25,7 +27,7 @@ const App = () => {
         <TotalsTracker />
         <AddExpense />
       </div>
-      <div>
+      <div className={style.expensesContainer}>
         <ExpensesContainer />
       </div>
     </>
