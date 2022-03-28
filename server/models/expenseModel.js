@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 
+// Basic Schema model for Expense --> Assumend date field was only date created and not date created/updated
 const expenseSchema = mongoose.Schema({
   amount: Number,
   description: String,

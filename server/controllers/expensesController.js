@@ -1,5 +1,6 @@
 import Expense from '../models/expenseModel.js'
 
+// Gets all Expenses
 export const getExpenses = async (req, res) => {
   try {
     const expenses = await Expense.find()
@@ -9,6 +10,7 @@ export const getExpenses = async (req, res) => {
   }
 }
 
+// Creates Expense and returns data of Created Expense
 export const createExpense = async (req, res) => {
   const expense = req.body
   const newExpense = new Expense(expense)
@@ -20,6 +22,7 @@ export const createExpense = async (req, res) => {
   }
 }
 
+// Updates the Expense (filtered by _id) with the passed in Data
 export const patchExpense = async (req, res) => {
   try {
     const filter = { _id: req.body.data.expense._id }
@@ -31,6 +34,7 @@ export const patchExpense = async (req, res) => {
   }
 }
 
+// Deletes the Expense (based off _id)
 export const deleteExpense = async (req, res) => {
   try {
     await Expense.remove({ _id: req.body.id })

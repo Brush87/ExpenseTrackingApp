@@ -13,7 +13,7 @@ app.use(cors())
 
 app.use('/expense', expenseRoutes)
 
-// TODO Secure Credientials at least somewhat
+// Did not secure credientials -- This would not occur in live in Prod app
 const CONN_URL = 'mongodb+srv://huotdyanmicly:BKNTEcRTXcugZixr@huotdynamiclycluster.3dlzi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 const PORT = process.env.port || 5000
 
