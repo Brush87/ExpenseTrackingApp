@@ -22,7 +22,7 @@ const App = () => {
 
   return (
     <>
-      <h1>Expense Tracker</h1>
+      <h1 style={{ paddingLeft: '20px' }}>Expense Tracker</h1>
       <div className={style.highLevelContainer}>
         <TotalsTracker />
         <AddExpense />

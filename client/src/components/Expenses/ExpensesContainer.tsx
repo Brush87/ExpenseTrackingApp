@@ -14,6 +14,7 @@ import {
   calculateTaxes,
   displayTaxedAmount
 } from '../../utils/Utils'
+import CreateEditExpenseForm from '../Form/CreateEditExpenseForm'
 import {
   Table,
   Spin,
@@ -52,6 +53,20 @@ const ExpensesContainer = () => {
   const dispatch = useAppDispatch()
   const expenseList = useAppSelector(selectExpenseList)
   const [dataSource, setDataSource] = useState<any[]>([])
+  const [editingModalVisibility, setEditingModalVisibility] = useState<boolean>(false)
+  const [editingExpenseId, setEditingExpenseId] = useState<string|undefined>()
+
+  const handleEditExpense = (expenseId: string) => {
+    setEditingExpenseId(expenseId)
+  }
+
+  const handleEditExpenseChange = () => {
+    if (editingExpenseId) {
+      setEditingModalVisibility(true)
+    }
+  }
+
+  useEffect(handleEditExpenseChange, [editingExpenseId])
 
   const handleDeleteExpense = (expenseId: string) => {
     dispatch(deleteSpecificExpense(expenseId))
@@ -60,7 +75,9 @@ const ExpensesContainer = () => {
   const generateExpenseOptions = (expenseId: string) => {
     return (
       <div>
-        <Button>
+        <Button
+          onClick={() => handleEditExpense(expenseId)}
+        >
           Edit
         </Button>
         <Button
@@ -73,7 +90,6 @@ const ExpensesContainer = () => {
   }
 
   const generateExpenseDataEffect = () => {
-    console.log('Expense List', expenseList)
     const returnDataSource = expenseList.reduce((prev, curr) => {
       return [...prev, {
         key: curr._id,
@@ -94,7 +110,14 @@ const ExpensesContainer = () => {
       {(dataSource.length === 0) ?
         <Spin size='large'/>
         :
-        <Table dataSource={dataSource} columns={TABLE_COLUMNS} />
+        <>
+          <Table dataSource={dataSource} columns={TABLE_COLUMNS} />
+          <CreateEditExpenseForm
+            visible={editingModalVisibility}
+            setVisible={setEditingModalVisibility}
+            editingExpense={editingExpenseId}
+          />
+        </>
       }
     </>
   )

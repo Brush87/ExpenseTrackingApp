@@ -20,12 +20,12 @@ export const createExpense = async (req, res) => {
   }
 }
 
-// TODO Write out patchExpense Functionality
 export const patchExpense = async (req, res) => {
   try {
-
+    console.log('PATCH', req.body)
+    res.status(202).json()
   } catch (err) {
-
+    res.status(500).json({ message: err.message })
   }
 }
 

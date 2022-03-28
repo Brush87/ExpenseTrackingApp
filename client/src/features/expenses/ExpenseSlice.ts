@@ -10,7 +10,8 @@ import type {
 import {
   fetchExpenses,
   createExpense,
-  deleteExpense
+  deleteExpense,
+  patchExpense
 } from '../../api/index'
 
 // Define a type for the slice state
@@ -55,7 +56,14 @@ export const deleteSpecificExpense = createAsyncThunk(
   'expense/deleteExpense',
   async (expenseId: string) => {
     const response = await deleteExpense(expenseId)
-    console.log('deleteExpense RESPONSE', response)
+    return response.data
+  }
+)
+
+export const patchSpecificExpense = createAsyncThunk(
+  'expense/patchExpense',
+  async (expenseId: string, expense: any) => {
+    const response = await patchExpense(expenseId, expense)
     return response.data
   }
 )
@@ -126,6 +134,24 @@ export const expenseSlice = createSlice({
         state.totalWithTaxes = total * 1.15
       })
       .addCase(deleteSpecificExpense.rejected, (state) => {
+        state.status = 'failed'
+      })
+
+    // PATCH_SPECIFIC_EXPENSE CASES
+      .addCase(patchSpecificExpense.pending, (state) => {
+        state.status = 'loading'
+      })
+      .addCase(patchSpecificExpense.fulfilled, (state, action) => {
+        state.status = 'idle'
+        console.log('PAYLOAD PATCH', action.payload)
+        // state.expenses = state.expenses.filter(expense => expense._id !== action.payload)
+
+        // // Update State with with New Totals from Expenses List
+        // const total = calculateTotal(state.expenses)
+        // state.total = total
+        // state.totalWithTaxes = total * 1.15
+      })
+      .addCase(patchSpecificExpense.rejected, (state) => {
         state.status = 'failed'
       })
   },

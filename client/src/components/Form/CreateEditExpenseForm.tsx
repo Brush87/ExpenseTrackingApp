@@ -5,10 +5,13 @@ import React, {
   SetStateAction
 } from 'react'
 import {
-  useAppDispatch
+  useAppDispatch,
+  useAppSelector
 } from '../../hooks'
 import {
-  createNewExpense
+  selectExpenseList,
+  createNewExpense,
+  patchSpecificExpense
 } from '../../features/expenses/ExpenseSlice'
 import {
   calculateTaxes,
@@ -21,28 +24,38 @@ import {
   Button
 } from 'antd'
 import style from './style.module.scss'
+import { useEffect } from 'react'
 
 type Props = {
   visible: boolean
   setVisible: Dispatch<SetStateAction<boolean>>
-  editingExpense: boolean
-  amount?: number
-  description?: string
-}
-
-const defaultProps = {
-  editingExpense: false
+  editingExpense?: string
 }
 
 const CreateEditExpenseForm = (props: Props) => {
   const dispatch = useAppDispatch()
-  const [amount, setAmount] = useState<number>(props.amount ?? 0)
-  const [description, setDescription] = useState<string|undefined>(props.description)
-  const [taxesOnAmout, setTaxesOnAmount] = useState<number>(props.amount ? calculateTaxes(props.amount) : 0)
+  const expenseList = useAppSelector(selectExpenseList)
+  const [amount, setAmount] = useState<number>(0)
+  const [description, setDescription] = useState<string|undefined>(undefined)
+  const [taxesOnAmout, setTaxesOnAmount] = useState<number>(calculateTaxes(amount))
 
   const validExpense = useMemo(() => amount > 0 && (description && description.length > 0), [
     amount,
     description
+  ])
+
+  const updateEditingExpenseFieldsEffect = () => {
+    if (props.editingExpense) {
+      const editingExpense = expenseList.find(expense => expense._id === props.editingExpense)
+      setAmount(editingExpense.amount)
+      setDescription(editingExpense.description)
+      setTaxesOnAmount(calculateTaxes(editingExpense.amount))
+    }
+  }
+
+  useEffect(updateEditingExpenseFieldsEffect, [
+    props.editingExpense,
+    expenseList
   ])
 
   const closeModal = () => {
@@ -84,9 +97,10 @@ const CreateEditExpenseForm = (props: Props) => {
   return (
     <Modal
       visible={props.visible}
-      title={props.editingExpense ? `Edit ${props.description!}` : 'New Expense'}
+      title={props.editingExpense ? `Edit ${description}` : 'New Expense'}
       onCancel={closeModal}
       footer={renderModalFooter()}
+      destroyOnClose
     >
       <div className={style.formRow}>
         <label className={style.formLabel}>
@@ -121,5 +135,4 @@ const CreateEditExpenseForm = (props: Props) => {
   )
 }
 
-CreateEditExpenseForm.defaultProps = defaultProps
 export default CreateEditExpenseForm
