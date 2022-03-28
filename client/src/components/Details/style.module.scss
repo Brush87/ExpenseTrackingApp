@@ -1,0 +1,22 @@
+.detailsContainer {
+  justify-content: flex-start;
+}
+
+.addExpenseContainer {
+  margin-left: auto;
+  justify-content: flex-end;
+  align-self: center;
+  padding-right: 10px;
+}
+
+.labelContainer {
+  padding: 5px;
+}
+
+.label {
+  font-weight: 700;
+}
+
+.value {
+  margin-left: 5px;
+}

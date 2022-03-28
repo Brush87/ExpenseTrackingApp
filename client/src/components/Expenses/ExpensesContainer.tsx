@@ -1,8 +1,16 @@
-import React from 'react'
+import React, {
+  useEffect
+} from 'react'
 import {
   Table,
   Spin
 } from 'antd'
+import {
+  useAppSelector
+} from '../../hooks'
+import {
+  selectExpenseList
+} from '../../features/expenses/ExpenseSlice'
 
 const TABLE_COLUMNS = [
   {
@@ -33,7 +41,11 @@ const TABLE_COLUMNS = [
 ]
 
 const ExpensesContainer = () => {
+  const expenseList = useAppSelector(selectExpenseList)
 
+  const generateExpenseDataEffect = () => {
+    console.log('this is the effect that will build out the AntD table')
+  }
 }
 
 export default ExpensesContainer

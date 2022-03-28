@@ -1,11 +1,5 @@
-.labelContainer {
-  padding: 5px;
-}
-
-.label {
-  font-weight: 700;
-}
-
-.value {
-  margin-left: 5px;
+.highLevelContainer {
+  display: flex;
+  flex: 1;
+  align-content: center;
 }
