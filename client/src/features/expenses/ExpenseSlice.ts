@@ -4,8 +4,7 @@ import {
   PayloadAction
 } from '@reduxjs/toolkit'
 import type {
-  RootState,
-  AppThunk
+  RootState
 } from '../../store'
 import {
   fetchExpenses,
@@ -14,7 +13,7 @@ import {
   patchExpense
 } from '../../api/index'
 
-// Define a type for the slice state
+// Type for the Expense slice state
 interface ExpenseState {
   total: number,
   totalWithTaxes: number,
@@ -22,7 +21,7 @@ interface ExpenseState {
   status: string
 }
 
-// Define the initial state using that type
+// Initial State
 const initialState: ExpenseState = {
   total: 0,
   totalWithTaxes: 0,
@@ -30,6 +29,7 @@ const initialState: ExpenseState = {
   status: 'idle'
 }
 
+// Internal function used to sum up all the Expenses (without tax)
 const calculateTotal = (expenseList: any) => {
   return expenseList.reduce((prev: number, curr: any) => {
     return prev + curr.amount

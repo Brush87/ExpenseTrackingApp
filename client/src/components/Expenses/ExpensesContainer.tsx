@@ -58,22 +58,37 @@ const ExpensesContainer = () => {
   const [editingModalVisibility, setEditingModalVisibility] = useState<boolean>(false)
   const [editingExpenseId, setEditingExpenseId] = useState<string|undefined>()
 
+  // Function for Edit button that sets the editingExpenseId field
   const handleEditExpense = (expenseId: string) => {
     setEditingExpenseId(expenseId)
   }
 
+  // Function for the below UE
   const handleEditExpenseChange = () => {
     if (editingExpenseId) {
       setEditingModalVisibility(true)
     }
   }
 
+  // UE that triggers displaying the edit form modal due to change in the expenseEditingId
   useEffect(handleEditExpenseChange, [editingExpenseId])
 
+  // Dispatches event to Delete Specific Expense
   const handleDeleteExpense = (expenseId: string) => {
     dispatch(deleteSpecificExpense(expenseId))
   }
 
+  // Function for the below UE
+  const handleModalOnClose = () => {
+    if (!editingModalVisibility) {
+      setEditingExpenseId(undefined)
+    }
+  }
+
+  // UE to handle clearing the editingExpenseId field when modal closes
+  useEffect(handleModalOnClose, [editingModalVisibility])
+
+  // Renders the Option Buttons for each Expense
   const generateExpenseOptions = (expenseId: string) => {
     return (
       <div>
@@ -91,6 +106,7 @@ const ExpensesContainer = () => {
     )
   }
 
+  // Function to be build the Data Source required for table component out of expenseList state
   const generateExpenseDataEffect = () => {
     const returnDataSource = expenseList.reduce((prev, curr) => {
       return [...prev, {
@@ -105,8 +121,10 @@ const ExpensesContainer = () => {
     setDataSource(returnDataSource)
   }
 
+  // UE to rebuild the table when the expenseList state changes
   useEffect(generateExpenseDataEffect, [expenseList])
 
+  // Function to render the table -- Some really basic ErrorBoundary stuff
   const renderTable = () => {
     if (status === 'pending') {
       return (

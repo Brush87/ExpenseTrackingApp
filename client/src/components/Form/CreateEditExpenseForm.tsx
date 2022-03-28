@@ -39,11 +39,13 @@ const CreateEditExpenseForm = (props: Props) => {
   const [description, setDescription] = useState<string|undefined>(undefined)
   const [taxesOnAmout, setTaxesOnAmount] = useState<number>(calculateTaxes(amount))
 
+  // Memo Function that does basic checking to make sure an expense amount is greater than 0 && description string isn't empty
   const validExpense = useMemo(() => amount > 0 && (description && description.length > 0), [
     amount,
     description
   ])
 
+  // Function for the below UE
   const updateEditingExpenseFieldsEffect = () => {
     if (props.editingExpense) {
       const editingExpense = expenseList.find(expense => expense._id === props.editingExpense)
@@ -53,24 +55,29 @@ const CreateEditExpenseForm = (props: Props) => {
     }
   }
 
+  // UE updating the amount, description and tax amount, triggered by a change in the editingExpense prop (different Edit button was clicked)
   useEffect(updateEditingExpenseFieldsEffect, [
     props.editingExpense,
     expenseList
   ])
 
+  // Internal function that handles closing the modal
   const closeModal = () => {
     props.setVisible(false)
   }
 
+  // Function that deals with change to the description -- Updates local state
   const onInputChange = (e: any) => {
     setDescription(e.target.value)
   }
 
+  // Function that deals with change to the amount -- Updates local state then calculates new tax amount
   const onInputNumberChange = (value: number) => {
     setAmount(value)
     setTaxesOnAmount(calculateTaxes(value))
   }
 
+  // Function that handles the Submit funcitonality --> if props.editingExpense present --> Edit call. Otherwise Create call.
   const onSubmit = () => {
     if (props.editingExpense) {
       const editedExpense = {
@@ -88,6 +95,7 @@ const CreateEditExpenseForm = (props: Props) => {
     }
   }
 
+  // Function that renders the Footer with the specific button functionality (needed for disabled logic)
   const renderModalFooter = () => (
     <div>
       <Button

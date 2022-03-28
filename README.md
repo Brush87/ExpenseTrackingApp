@@ -8,6 +8,7 @@ The app can be run through 2 terminals (I prefer to keep these to different term
 
 # Assumptions
 A few assumptions about the project were made and are listed below.
+- Assumed that the `date` field on Expense was the Date of item creation and not item creation/edit (IE this field never changes post creation)
 - A UI Library (AntD) was used for out of the box styling and component creation
 - Axios was used as a Client side means of dispatching requests to the backend
 - Token or extra Authorization for calls made to the backend/MongoDB cluster were not added but would be a NECESSITY for anything live
@@ -19,7 +20,10 @@ So I hadn't actually built a from-scratch MERN app before (regardless of size) a
 
 For this assement, I ran into TS issues using the Redux pattern that I was familiar with (as seen from some of the commit history) only to realize that the `slice` pattern is the more TypeScript way of doing things (We still use Action classes and handlers). Another first was the inclusion of async Redux actions using Thunk. That is just SO MUCH NICER in comparison to performing an async fetch call and then updating things via a standard dispatch on Promise return. Doing it all in one place = `Chef kiss`.
 
+# Non Implementations
+There are a few non-implementations that I would like to make note of:
+- No components are memoized --> While this would for sure make a less "re-rendery" application, the size of this application, would probably be more expensive to Memoize. However in a live, prod, environment, Memoization of components would probably be worth extra cost. 
+
 # Known Issues
-There are two known issues, with neither affecting core functionality:
-- Subsequent clicks of the same Expense edit button will not trigger the modal -- This a logic bug (Huot fix this before submission)
+There is a known issue, it does not affect core functionality:
 - There is a console warning about a deprecated findDOM usage present when clicking the the `Add Expense` modal

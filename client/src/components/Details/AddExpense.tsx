@@ -7,6 +7,7 @@ import {
 } from 'antd'
 import style from './style.module.scss'
 
+// Small Component that contains the Button clicked to toggle the CreateEditExpense modal
 const AddExpense = () => {
   const [addExpenseFormVisibility, setAddExpenseFormVisibility] = useState<boolean>(false)
 

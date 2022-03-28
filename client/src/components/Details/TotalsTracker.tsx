@@ -11,6 +11,7 @@ import {
 } from '../../utils/Utils'
 import style from './style.module.scss'
 
+// Small component to display the Sub-Total and Total with Taxes amount
 const TotalsTracker = () => {
   const total = useAppSelector(selectTotal)
   const totalWithTaxes = useAppSelector(selectTotalWithTaxes)
