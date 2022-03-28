@@ -3,6 +3,7 @@ import React, {
 } from 'react'
 import TotalsTracker from './components/Details/TotalsTracker'
 import AddExpense from './components/Details/AddExpense'
+import ExpensesContainer from './components/Expenses/ExpensesContainer'
 import {
   useAppDispatch
 } from './hooks'
@@ -23,6 +24,9 @@ const App = () => {
       <div className={style.highLevelContainer}>
         <TotalsTracker />
         <AddExpense />
+      </div>
+      <div>
+        <ExpensesContainer />
       </div>
     </>
   )

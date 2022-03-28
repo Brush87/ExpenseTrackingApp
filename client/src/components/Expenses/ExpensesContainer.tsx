@@ -1,4 +1,5 @@
 import React, {
+  useState,
   useEffect
 } from 'react'
 import {
@@ -42,10 +43,33 @@ const TABLE_COLUMNS = [
 
 const ExpensesContainer = () => {
   const expenseList = useAppSelector(selectExpenseList)
+  const [dataSource, setDataSource] = useState<any[]>([])
 
   const generateExpenseDataEffect = () => {
-    console.log('this is the effect that will build out the AntD table')
+    console.log('Expense List', expenseList)
+    const returnDataSource = expenseList.reduce((prev, curr) => {
+      return [...prev, {
+        description: curr.description,
+        amount: curr.amount,
+        taxes: curr.amount,
+        date: curr.date,
+        options: 'Options Go Here'
+      }]
+    }, [])
+    setDataSource(returnDataSource)
   }
+
+  useEffect(generateExpenseDataEffect, [expenseList])
+
+  return (
+    <>
+      {(dataSource.length === 0) ?
+        <Spin size='large'/>
+        :
+        <Table dataSource={dataSource} columns={TABLE_COLUMNS} />
+      }
+    </>
+  )
 }
 
 export default ExpensesContainer
