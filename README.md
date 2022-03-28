@@ -5,8 +5,8 @@ If Node Version is an issue, suggest using `nvm` as a means to quickly switch ov
 
 # Running the App
 The app can be run through 2 terminals (I prefer to keep these to different terminals so that Client and Server can be debugged independently).
-- Client side --> `cd` into `client` directory and run with `npm start` --> Will kick up client React app on port `3000`
-- Server side --> `cd` into `server` direction and run with `npm start` --> Will kick up server side app on port `5000`
+- Client side --> `cd` into `client` directory, install packages with `npm i`, and run with `npm start` --> Will kick up client React app on port `3000`
+- Server side --> `cd` into `server` direction, install packages with `npm i`, and run with `npm start` --> Will kick up server side app on port `5000`
 
 # Assumptions
 A few assumptions about the project were made and are listed below.
