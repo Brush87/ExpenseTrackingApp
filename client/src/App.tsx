@@ -2,6 +2,7 @@ import React from 'react'
 import TotalsTracker from './components/Details/TotalsTracker'
 import AddExpense from './components/Details/AddExpense'
 import style from './rootStyle.module.scss'
+import 'antd/dist/antd.css'
 
 const App = () => {
   // const dispatch = useAppDispatch()

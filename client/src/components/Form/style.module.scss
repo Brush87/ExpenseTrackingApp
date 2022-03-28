@@ -1,0 +1,17 @@
+.formRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: center;
+  padding: 5px;
+}
+
+.formLabel {
+  margin-right: auto;
+  font-weight: 700;
+  align-self: center;
+}
+
+.descriptionInput {
+  width: 250px;
+}
