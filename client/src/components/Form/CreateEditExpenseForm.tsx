@@ -47,9 +47,9 @@ const CreateEditExpenseForm = (props: Props) => {
   const updateEditingExpenseFieldsEffect = () => {
     if (props.editingExpense) {
       const editingExpense = expenseList.find(expense => expense._id === props.editingExpense)
-      setAmount(editingExpense.amount)
-      setDescription(editingExpense.description)
-      setTaxesOnAmount(calculateTaxes(editingExpense.amount))
+      setAmount(editingExpense?.amount ?? 0)
+      setDescription(editingExpense?.description ?? '')
+      setTaxesOnAmount(calculateTaxes(editingExpense?.amount ?? 0))
     }
   }
 
@@ -73,7 +73,14 @@ const CreateEditExpenseForm = (props: Props) => {
 
   const onSubmit = () => {
     if (props.editingExpense) {
-      console.log('Patch occurs here with inplace ID')
+      console.log('Patch occurs here with inplace ID', props.editingExpense)
+      const editedExpense = {
+        _id: props.editingExpense,
+        amount: amount,
+        description: description,
+        date: expenseList.find(expense => expense._id === props.editingExpense).date
+      }
+      dispatch(patchSpecificExpense(editedExpense))
     } else {
       dispatch(createNewExpense({
         amount: amount,

@@ -22,8 +22,10 @@ export const createExpense = async (req, res) => {
 
 export const patchExpense = async (req, res) => {
   try {
-    console.log('PATCH', req.body)
-    res.status(202).json()
+    const filter = { _id: req.body.data.expense._id }
+    const update = req.body.data.expense
+    await Expense.findOneAndUpdate(filter, update);
+    res.status(202).json(req.body.data.expense)
   } catch (err) {
     res.status(500).json({ message: err.message })
   }

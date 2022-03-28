@@ -111,7 +111,10 @@ const ExpensesContainer = () => {
         <Spin size='large'/>
         :
         <>
-          <Table dataSource={dataSource} columns={TABLE_COLUMNS} />
+          <Table
+            dataSource={dataSource}
+            columns={TABLE_COLUMNS}
+          />
           <CreateEditExpenseForm
             visible={editingModalVisibility}
             setVisible={setEditingModalVisibility}

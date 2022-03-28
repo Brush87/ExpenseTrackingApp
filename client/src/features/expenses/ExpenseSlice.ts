@@ -62,8 +62,8 @@ export const deleteSpecificExpense = createAsyncThunk(
 
 export const patchSpecificExpense = createAsyncThunk(
   'expense/patchExpense',
-  async (expenseId: string, expense: any) => {
-    const response = await patchExpense(expenseId, expense)
+  async (expense: any) => {
+    const response = await patchExpense(expense)
     return response.data
   }
 )
@@ -143,13 +143,19 @@ export const expenseSlice = createSlice({
       })
       .addCase(patchSpecificExpense.fulfilled, (state, action) => {
         state.status = 'idle'
-        console.log('PAYLOAD PATCH', action.payload)
-        // state.expenses = state.expenses.filter(expense => expense._id !== action.payload)
+        state.expenses = state.expenses.map(expense => {
+          if (expense._id !== action.payload._id) {
+            return expense
+          } else {
+            return {...expense, ...action.payload}
+          }
+        })
+        state.expenses = [...newList]
 
-        // // Update State with with New Totals from Expenses List
-        // const total = calculateTotal(state.expenses)
-        // state.total = total
-        // state.totalWithTaxes = total * 1.15
+        // Update State with with New Totals from Expenses List
+        const total = calculateTotal(state.expenses)
+        state.total = total
+        state.totalWithTaxes = total * 1.15
       })
       .addCase(patchSpecificExpense.rejected, (state) => {
         state.status = 'failed'
