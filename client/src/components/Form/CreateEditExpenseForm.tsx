@@ -5,9 +5,14 @@ import React, {
   SetStateAction
 } from 'react'
 import {
+  calculateTaxes,
+  displayTaxedAmount
+} from '../../utils/Utils'
+import {
   Modal,
   Input,
-  InputNumber
+  InputNumber,
+  Button
 } from 'antd'
 import style from './style.module.scss'
 
@@ -26,6 +31,12 @@ const defaultProps = {
 const CreateEditExpenseForm = (props: Props) => {
   const [amount, setAmount] = useState<number>(props.amount ?? 0)
   const [description, setDescription] = useState<string|undefined>(props.description)
+  const [taxesOnAmout, setTaxesOnAmount] = useState<number>(props.amount ? calculateTaxes(props.amount) : 0)
+
+  const validExpense = useMemo(() => amount > 0 && (description && description.length > 0), [
+    amount,
+    description
+  ])
 
   const closeModal = () => {
     props.setVisible(false)
@@ -37,13 +48,26 @@ const CreateEditExpenseForm = (props: Props) => {
 
   const onInputNumberChange = (value: number) => {
     setAmount(value)
+    setTaxesOnAmount(calculateTaxes(value))
   }
+
+  const renderModalFooter = () => (
+    <div>
+      <Button
+        disabled={!validExpense}
+        type='primary'
+      >
+        OK
+      </Button>
+    </div>
+  )
 
   return (
     <Modal
       visible={props.visible}
       title={props.editingExpense ? `Edit ${props.description!}` : 'New Expense'}
       onCancel={closeModal}
+      footer={renderModalFooter()}
     >
       <div className={style.formRow}>
         <label className={style.formLabel}>
@@ -67,6 +91,12 @@ const CreateEditExpenseForm = (props: Props) => {
           min={0}
           precision={2}
         />
+      </div>
+      <div className={style.formRow}>
+        <label className={style.formLabel}>
+          Taxes on Expense
+        </label>
+        <span>{displayTaxedAmount(taxesOnAmout)}$</span>
       </div>
     </Modal>
   )
