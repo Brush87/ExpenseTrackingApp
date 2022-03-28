@@ -31,7 +31,6 @@ export const patchExpense = async (req, res) => {
 
 export const deleteExpense = async (req, res) => {
   try {
-    console.log('Delete Req', req.body)
     await Expense.remove({ _id: req.body.id })
     res.status(202).json(req.body.id)
   } catch (err) {

@@ -54,13 +54,12 @@ const ExpensesContainer = () => {
   const [dataSource, setDataSource] = useState<any[]>([])
 
   const handleDeleteExpense = (expenseId: string) => {
-    console.log('Deleting', expenseId)
     dispatch(deleteSpecificExpense(expenseId))
   }
 
   const generateExpenseOptions = (expenseId: string) => {
     return (
-      <div key={expenseId}>
+      <div>
         <Button>
           Edit
         </Button>
@@ -76,8 +75,8 @@ const ExpensesContainer = () => {
   const generateExpenseDataEffect = () => {
     console.log('Expense List', expenseList)
     const returnDataSource = expenseList.reduce((prev, curr) => {
-      console.log('Curr', curr)
       return [...prev, {
+        key: curr._id,
         description: curr.description,
         amount: curr.amount,
         taxes: displayTaxedAmount(calculateTaxes(curr.amount)),
