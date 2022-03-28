@@ -1,6 +1,8 @@
 # Expense Tracker App
 This small little app was put together for a Dynamicly tech assessment. It was put together using `create-react-app typescript` for the client side, along with Node.js/MongoDB (using Express, Mongoose) on the server side. Node.js version is `17.8.0`
 
+If Node Version is an issue, suggest using `nvm` as a means to quickly switch over.
+
 # Running the App
 The app can be run through 2 terminals (I prefer to keep these to different terminals so that Client and Server can be debugged independently).
 - Client side --> `cd` into `client` directory and run with `npm start` --> Will kick up client React app on port `3000`
