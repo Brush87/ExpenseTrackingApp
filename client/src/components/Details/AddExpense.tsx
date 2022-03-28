@@ -13,7 +13,6 @@ const AddExpense = () => {
   return (
     <div className={style.addExpenseContainer}>
       <Button
-        color={'#228C22'}
         size='large'
         onClick={() => setAddExpenseFormVisibility(true)}
       >

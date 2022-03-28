@@ -5,6 +5,12 @@ import React, {
   SetStateAction
 } from 'react'
 import {
+  useAppDispatch
+} from '../../hooks'
+import {
+  createNewExpense
+} from '../../features/expenses/ExpenseSlice'
+import {
   calculateTaxes,
   displayTaxedAmount
 } from '../../utils/Utils'
@@ -29,6 +35,7 @@ const defaultProps = {
 }
 
 const CreateEditExpenseForm = (props: Props) => {
+  const dispatch = useAppDispatch()
   const [amount, setAmount] = useState<number>(props.amount ?? 0)
   const [description, setDescription] = useState<string|undefined>(props.description)
   const [taxesOnAmout, setTaxesOnAmount] = useState<number>(props.amount ? calculateTaxes(props.amount) : 0)
@@ -51,11 +58,23 @@ const CreateEditExpenseForm = (props: Props) => {
     setTaxesOnAmount(calculateTaxes(value))
   }
 
+  const onSubmit = () => {
+    if (props.editingExpense) {
+      console.log('Patch occurs here with inplace ID')
+    } else {
+      dispatch(createNewExpense({
+        amount: amount,
+        description: description
+      }))
+    }
+  }
+
   const renderModalFooter = () => (
     <div>
       <Button
         disabled={!validExpense}
         type='primary'
+        onClick={onSubmit}
       >
         OK
       </Button>
