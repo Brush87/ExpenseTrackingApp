@@ -150,7 +150,6 @@ export const expenseSlice = createSlice({
             return {...expense, ...action.payload}
           }
         })
-        state.expenses = [...newList]
 
         // Update State with with New Totals from Expenses List
         const total = calculateTotal(state.expenses)
@@ -172,5 +171,6 @@ export const {
 export const selectTotal = (state: RootState) => state.expenses.total
 export const selectTotalWithTaxes = (state: RootState) => state.expenses.totalWithTaxes
 export const selectExpenseList = (state: RootState) => state.expenses.expenses
+export const selectStatus = (state: RootState) => state.expenses.status
 
 export default expenseSlice.reducer

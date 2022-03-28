@@ -73,7 +73,6 @@ const CreateEditExpenseForm = (props: Props) => {
 
   const onSubmit = () => {
     if (props.editingExpense) {
-      console.log('Patch occurs here with inplace ID', props.editingExpense)
       const editedExpense = {
         _id: props.editingExpense,
         amount: amount,

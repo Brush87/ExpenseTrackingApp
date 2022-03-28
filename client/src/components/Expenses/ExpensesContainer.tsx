@@ -8,6 +8,7 @@ import {
 } from '../../hooks'
 import {
   selectExpenseList,
+  selectStatus,
   deleteSpecificExpense
 } from '../../features/expenses/ExpenseSlice'
 import {
@@ -52,6 +53,7 @@ const TABLE_COLUMNS = [
 const ExpensesContainer = () => {
   const dispatch = useAppDispatch()
   const expenseList = useAppSelector(selectExpenseList)
+  const status = useAppSelector(selectStatus)
   const [dataSource, setDataSource] = useState<any[]>([])
   const [editingModalVisibility, setEditingModalVisibility] = useState<boolean>(false)
   const [editingExpenseId, setEditingExpenseId] = useState<string|undefined>()
@@ -105,11 +107,21 @@ const ExpensesContainer = () => {
 
   useEffect(generateExpenseDataEffect, [expenseList])
 
-  return (
-    <>
-      {(dataSource.length === 0) ?
-        <Spin size='large'/>
-        :
+  const renderTable = () => {
+    if (status === 'pending') {
+      return (
+        <div>
+          <Spin size='large'/>
+        </div>
+      )
+    } else if (status === 'idle' && dataSource.length === 0) {
+      return (
+        <div>
+          Please Add an Expense to the Tracker
+        </div>
+      )
+    } else {
+      return (
         <>
           <Table
             dataSource={dataSource}
@@ -121,7 +133,13 @@ const ExpensesContainer = () => {
             editingExpense={editingExpenseId}
           />
         </>
-      }
+      )
+    }
+  }
+
+  return (
+    <>
+      {renderTable()}
     </>
   )
 }
