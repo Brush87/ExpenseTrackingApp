@@ -6,7 +6,7 @@ import {
   selectTotal,
   selectTotalWithTaxes
 } from './features/expenses/ExpenseSlice'
-import style from './rootStyle.scss'
+import style from './rootStyle.module.scss'
 
 const App = () => {
   // const dispatch = useAppDispatch()
@@ -18,11 +18,11 @@ const App = () => {
       <h1>Expense Tracker</h1>
       <div className={style.labelContainer}>
         <label className={style.label}>Expense Sub Total:</label>
-        <span>{total}</span>
+        <span className={style.value}>{total}$</span>
       </div>
       <div className={style.labelContainer}>
         <label className={style.label}>Total with Taxes:</label>
-        <span>{totalWithTaxes}</span>
+        <span className={style.value}>{totalWithTaxes}$</span>
       </div>
     </div>
   )
