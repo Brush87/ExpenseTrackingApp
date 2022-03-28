@@ -6,6 +6,9 @@ import {
   selectTotal,
   selectTotalWithTaxes
 } from '../../features/expenses/ExpenseSlice'
+import {
+  displayTaxedAmount
+} from '../../utils/Utils'
 import style from './style.module.scss'
 
 const TotalsTracker = () => {
@@ -28,7 +31,7 @@ const TotalsTracker = () => {
             Total with Taxes:
           </label>
           <span className={style.value}>
-            {totalWithTaxes}$
+            {displayTaxedAmount(totalWithTaxes)}$
           </span>
         </div>
       </div>

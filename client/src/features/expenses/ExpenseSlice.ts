@@ -29,6 +29,12 @@ const initialState: ExpenseState = {
   status: 'idle'
 }
 
+const calculateTotal = (expenseList: any) => {
+  return expenseList.reduce((prev: number, curr: any) => {
+    return prev + curr.amount
+  }, 0)
+}
+
 export const fetchAllExpenses = createAsyncThunk(
   'expense/fetchExpenses',
   async () => {
@@ -79,7 +85,11 @@ export const expenseSlice = createSlice({
       .addCase(fetchAllExpenses.fulfilled, (state, action) => {
         state.status = 'idle'
         state.expenses = action.payload
-        // TODO Write logic to populate total and totalWithTaxes on fulfilled
+
+        // Update State with Totals from Expenses List
+        const total = calculateTotal(action.payload)
+        state.total = total
+        state.totalWithTaxes = total * 1.15
       })
       .addCase(fetchAllExpenses.rejected, (state) => {
         state.status = 'failed'
@@ -92,7 +102,11 @@ export const expenseSlice = createSlice({
       .addCase(createNewExpense.fulfilled, (state, action) => {
         state.status = 'idle'
         state.expenses = [...state.expenses, action.payload]
-        // TODO Write logic to populate total and totalWithTaxes on fulfilled
+
+        // Update State with with New Totals from Expenses List
+        const total = calculateTotal([...state.expenses, action.payload])
+        state.total = total
+        state.totalWithTaxes = total * 1.15
       })
       .addCase(createNewExpense.rejected, (state) => {
         state.status = 'failed'
